@@ -1,0 +1,5 @@
+#include "globals.h"
+//bool operator< ( State_Input a, State_Input b ) { return std::make_pair(a.st,a.c) < std::make_pair(b.st,b.c) ; }
+void f(){
+//	M[{START,99}]=1;
+}

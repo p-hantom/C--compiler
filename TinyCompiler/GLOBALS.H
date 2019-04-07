@@ -12,7 +12,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <iostream>
 #include <string.h>
+#include <map>
 
 #ifndef FALSE
 #define FALSE 0
@@ -24,6 +26,7 @@
 
 /* MAXRESERVED = the number of reserved words */
 #define MAXRESERVED 6
+using namespace std;
 
 typedef enum 
     /* book-keeping tokens */
@@ -37,14 +40,31 @@ typedef enum
     /* special symbols */
     ASSIGN,EQ,GT,LT,GE,LE,NOTEQ,
 	PLUS,MINUS,TIMES,OVER,LPAREN,RPAREN,SEMI,
-	LCURL,RCURL,LSQ,RSQ,COMMA,NUM
+	LCURL,RCURL,LSQ,RSQ,COMMA,NUM,NULL_TK
    } TokenType;
    
-   /* states in scanner DFA */
-typedef enum
+   typedef enum
    { START,INASSIGN,INSLASH,INCOMMENT_START,INCOMMENT_END,INNUM,
    INGT,INLT,INGE,INLE,INNOTEQ,INID,DONE }
    StateType;
+   
+struct State_Input{
+	StateType st;
+	int c;
+};
+
+struct TableVal{
+	StateType st;
+	TokenType tk;
+	int save;
+	int unget;
+};
+
+//extern int lineno3;
+//extern map<State_Input,int> M;
+
+bool operator< ( State_Input a, State_Input b );
+
 
 extern FILE* source; /* source code text file */
 extern FILE* listing; /* listing output text file */

@@ -2,7 +2,7 @@
 #include "util.h"
 #include "scan.h"
 
-///* states in scanner DFA */
+/* states in scanner DFA */
 //typedef enum
 //   { START,INASSIGN,INSLASH,INCOMMENT_START,INCOMMENT_END,INNUM,
 //   INGT,INLT,INGE,INLE,INNOTEQ,INID,DONE }

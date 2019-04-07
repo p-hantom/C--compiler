@@ -4,8 +4,8 @@
 CPP      = g++.exe -D__DEBUG__
 CC       = gcc.exe -D__DEBUG__
 WINDRES  = windres.exe
-OBJ      = ANALYZE.o CGEN.o CODE.o MAIN.o PARSE.o SCAN.o SYMTAB.o UTIL.o SCAN_TABLE.o
-LINKOBJ  = ANALYZE.o CGEN.o CODE.o MAIN.o PARSE.o SCAN.o SYMTAB.o UTIL.o SCAN_TABLE.o
+OBJ      = MAIN.o SCAN.o UTIL.o INIT_TABLE.o SCAN_TABLE.o
+LINKOBJ  = MAIN.o SCAN.o UTIL.o INIT_TABLE.o SCAN_TABLE.o
 LIBS     = -L"D:/Program Files (x86)/Dev-Cpp/MinGW64/lib" -L"D:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc -g3
 INCS     = -I"D:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"D:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"D:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
 CXXINCS  = -I"D:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"D:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"D:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"D:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
@@ -24,29 +24,17 @@ clean: clean-custom
 $(BIN): $(OBJ)
 	$(CPP) $(LINKOBJ) -o $(BIN) $(LIBS)
 
-ANALYZE.o: ANALYZE.C
-	$(CPP) -c ANALYZE.C -o ANALYZE.o $(CXXFLAGS)
-
-CGEN.o: CGEN.C
-	$(CPP) -c CGEN.C -o CGEN.o $(CXXFLAGS)
-
-CODE.o: CODE.C
-	$(CPP) -c CODE.C -o CODE.o $(CXXFLAGS)
-
 MAIN.o: MAIN.C
 	$(CPP) -c MAIN.C -o MAIN.o $(CXXFLAGS)
-
-PARSE.o: PARSE.C
-	$(CPP) -c PARSE.C -o PARSE.o $(CXXFLAGS)
 
 SCAN.o: SCAN.C
 	$(CPP) -c SCAN.C -o SCAN.o $(CXXFLAGS)
 
-SYMTAB.o: SYMTAB.C
-	$(CPP) -c SYMTAB.C -o SYMTAB.o $(CXXFLAGS)
-
 UTIL.o: UTIL.C
 	$(CPP) -c UTIL.C -o UTIL.o $(CXXFLAGS)
+
+INIT_TABLE.o: INIT_TABLE.cpp
+	$(CPP) -c INIT_TABLE.cpp -o INIT_TABLE.o $(CXXFLAGS)
 
 SCAN_TABLE.o: SCAN_TABLE.cpp
 	$(CPP) -c SCAN_TABLE.cpp -o SCAN_TABLE.o $(CXXFLAGS)

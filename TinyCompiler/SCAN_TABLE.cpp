@@ -1,9 +1,15 @@
 #include "globals.h"
 #include "util.h"
-#include "scan.h"
+#include "scan_table.h"
+#include "init_table.h"
+/* states in scanner DFA */
+//typedef enum
+//   { START,INASSIGN,INSLASH,INCOMMENT_START,INCOMMENT_END,INNUM,
+//   INGT,INLT,INGE,INLE,INNOTEQ,INID,DONE }
+//   StateType;
 
 /* lexeme of identifier or reserved word */
-//char tokenString[MAXTOKENLEN+1];
+char tokenString_t[MAXTOKENLEN+1];
 
 /* BUFLEN = length of the input buffer for
    source code lines */
@@ -47,8 +53,6 @@ static struct
    = {{"if",IF},{"else",ELSE},{"while",WHILE},
       {"return",RETURN},{"void",VOID},{"int",INT}};
 
-/* lookup an identifier to see if it is a reserved word */
-/* uses linear search */
 static TokenType reservedLookup (char * s)
 { int i;
   for (i=0;i<MAXRESERVED;i++)
@@ -56,3 +60,56 @@ static TokenType reservedLookup (char * s)
       return reservedWords[i].tok;
   return ID;
 }
+
+TokenType getToken_t(map<State_Input,TableVal> &M){  
+
+    int tokenStringIndex = 0;
+   /* holds current token to be returned */
+    TokenType currentToken;
+   /* current state - always begins at START */
+    StateType state = START;
+    TableVal tbVal;
+   /* flag to indicate save to tokenString */
+    int save;
+    while (state != DONE){ 
+   		 int c = getNextChar();
+   		 int c_ascii = c;
+   	 	 printf("%c",c);
+     	 if(isalpha(c)){
+     	 	c_ascii='a';
+		 }
+		 else if(isdigit(c)){
+		 	c_ascii='0';
+		 }
+		 tbVal = M[{state,c_ascii}];
+		 state=tbVal.st;
+		 if(state == INCOMMENT_START){
+		 	tokenStringIndex=0;
+		 }
+		 
+		 currentToken = tbVal.tk;
+		 if ((tbVal.save) && (tokenStringIndex <= MAXTOKENLEN))
+	       tokenString_t[tokenStringIndex++] = (char) c;
+	     if(tbVal.unget){
+	     	ungetNextChar();
+		 }
+	     
+	     if (state == DONE)
+	     { tokenString_t[tokenStringIndex] = '\0';
+	       if (currentToken == ID)
+	         currentToken = reservedLookup(tokenString_t);
+	     }
+	     
+	     
+	}
+	
+	if (TraceScan) {
+     fprintf(listing,"\t%d: ",lineno);
+     //test(currentToken);
+     printToken(currentToken,tokenString_t);
+     //test(currentToken);
+   }
+	
+	return currentToken;
+}
+

@@ -88,26 +88,12 @@ void initTable(){
 			M[{INCOMMENT_START,i}]={INCOMMENT_START,NULL_TK,0,0};	
 		}
 	}
-	M[{INCOMMENT_START,-1}]={DONE,ENDFILE,0,0};
 	M[{INCOMMENT_START,'*'}]={INCOMMENT_END,NULL_TK,0,0};
 	M[{INCOMMENT_END,'/'}]={START,NULL_TK,0,0};
 	M[{INCOMMENT_END,'*'}]={INCOMMENT_END,NULL_TK,0,0};
 	for(int i=-1;i<128;i++){ //'other' for '/','*'
 		if(i!='*' && i!='/'){
 			M[{INCOMMENT_END,i}]={INCOMMENT_START,NULL_TK,0,0};	
-		}
-	}
-	
-	M[{START,'>'}]={INGT,NULL_TK,1,0};
-	M[{START,'<'}]={INLT,NULL_TK,1,0};
-	M[{START,'!'}]={INNOTEQ,NULL_TK,1,0};
-	M[{INGT,'='}]={DONE,GE,1,0}; M[{INLT,'='}]={DONE,LE,1,0}; M[{INNOTEQ,'='}]={DONE,NOTEQ,1,0};
-	for(int i=-1;i<128;i++){ //'other' for '/','*'
-		if(i!='='){
-			M[{INGT,i}]={DONE,GT,0,1};
-			M[{INLT,i}]={DONE,LT,0,1};	
-			M[{INNOTEQ,i}]={DONE,ERROR,0,1};
-//			M[{INNOTEQ,i}]={ERROR,NULL_TK,0,1};		
 		}
 	}
 	
@@ -141,10 +127,9 @@ main()
   listing = stdout; /* send listing to screen */
   fprintf(listing,"\nTINY COMPILATION: %s\n",pgm);
 //#if NO_PARSE
-  while (getToken_t(M)!=ENDFILE);
-//	while (getToken()!=ENDFILE);
+//  while (getToken_t(M)!=ENDFILE);
+	while (getToken()!=ENDFILE);
 //#else
-
 //  syntaxTree = parse();
 //  if (TraceParse) {
 //    fprintf(listing,"\nSyntax tree:\n");
