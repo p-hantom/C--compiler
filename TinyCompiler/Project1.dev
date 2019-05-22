@@ -61,17 +61,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit8]
-FileName=INIT_TABLE.h
-CompileCpp=1
-Folder=
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit10]
-FileName=SCAN_TABLE.cpp
+FileName=PARSER_EBNF.h
 CompileCpp=1
 Folder=
 Compile=1
@@ -81,7 +71,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit11]
-FileName=SCAN.C
+FileName=PARSER_LL1.cpp
 CompileCpp=1
 Folder=
 Compile=1
@@ -91,7 +81,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit12]
-FileName=SCAN.H
+FileName=PARSER_LL1.h
 CompileCpp=1
 Folder=
 Compile=1
@@ -101,7 +91,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit13]
-FileName=SYMTAB.C
+FileName=PARSER_LL1.cpp
 CompileCpp=1
 Folder=
 Compile=1
@@ -111,7 +101,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit14]
-FileName=SYMTAB.H
+FileName=PARSER_LL1.h
 CompileCpp=1
 Folder=
 Compile=1
@@ -220,8 +210,8 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit7]
-FileName=INIT_TABLE.cpp
+[Unit9]
+FileName=PARSER_LL1.cpp
 CompileCpp=1
 Folder=
 Compile=1
@@ -230,8 +220,18 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit9]
-FileName=SCAN_TABLE.h
+[Unit10]
+FileName=PARSER_LL1.h
+CompileCpp=1
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit7]
+FileName=PARSER_EBNF.cpp
 CompileCpp=1
 Folder=
 Compile=1

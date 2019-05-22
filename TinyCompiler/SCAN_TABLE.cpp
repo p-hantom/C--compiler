@@ -74,7 +74,7 @@ TokenType getToken_t(map<State_Input,TableVal> &M){
     while (state != DONE){ 
    		 int c = getNextChar();
    		 int c_ascii = c;
-   	 	 printf("%c",c);
+   	 	 //printf("%c",c);
      	 if(isalpha(c)){
      	 	c_ascii='a';
 		 }

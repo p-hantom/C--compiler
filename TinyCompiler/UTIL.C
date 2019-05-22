@@ -1,17 +1,9 @@
-/****************************************************/
-/* File: util.c                                     */
-/* Utility function implementation                  */
-/* for the TINY compiler                            */
-/* Compiler Construction: Principles and Practice   */
-/* Kenneth C. Louden                                */
-/****************************************************/
+
 
 #include "globals.h"
 #include "util.h"
 
-/* Procedure printToken prints a token 
- * and its lexeme to the listing file
- */
+
 void printToken( TokenType token, const char* tokenString )
 { switch (token)
   { case IF:
@@ -142,18 +134,24 @@ void printTree( TreeNode * tree )
         case IfK:
           fprintf(listing,"If\n");
           break;
-        case RepeatK:
-          fprintf(listing,"Repeat\n");
+        case ReturnK:
+        	fprintf(listing,"Return\n");
+          	break;
+        case WhileK:
+          fprintf(listing,"While\n");
           break;
         case AssignK:
-          fprintf(listing,"Assign to: %s\n",tree->attr.name);
+          fprintf(listing,"Assign\n");
           break;
-        case ReadK:
-          fprintf(listing,"Read: %s\n",tree->attr.name);
-          break;
-        case WriteK:
-          fprintf(listing,"Write\n");
-          break;
+        case DeFunK:
+        	fprintf(listing,"Function declaration\n");
+          	break;
+        case DeVarK:
+          	fprintf(listing,"Var declaration\n");
+          	break;
+        case CompoundK:
+        	fprintf(listing,"Compound\n");
+          	break;
         default:
           fprintf(listing,"Unknown ExpNode kind\n");
           break;
@@ -162,18 +160,38 @@ void printTree( TreeNode * tree )
     else if (tree->nodekind==ExpK)
     { switch (tree->kind.exp) {
         case OpK:
-          fprintf(listing,"Op: ");
-          printToken(tree->attr.op,"\0");
-          break;
+          	fprintf(listing,"Op: ");
+          	printToken(tree->attr.op,"\0");
+          	break;
         case ConstK:
-          fprintf(listing,"Const: %d\n",tree->attr.val);
-          break;
+          	fprintf(listing,"Const: %d\n",tree->attr.val);
+          	break;
         case IdK:
-          fprintf(listing,"Id: %s\n",tree->attr.name);
-          break;
+          	fprintf(listing,"Id: %s\n",tree->attr.name);
+          	break;
+        case TypeK:
+          	fprintf(listing,"Type: %s\n",tree->attr.name);
+          	break;
+        case SubscriptK:
+        	fprintf(listing,"Subscript: ");
+        	if(tree->attr.val){
+        		fprintf(listing,"%d",tree->attr.val);
+			}
+			fprintf(listing,"\n");
+        	break;
+        case ParamK:
+        	fprintf(listing,"Param \n");
+        	break;
+        case CallK:
+        	fprintf(listing,"Call: ");
+        	if(tree->attr.name){
+        		fprintf(listing,"%s\n",tree->attr.name);
+			}
+			else fprintf(listing,"\n");
+        	break;
         default:
-          fprintf(listing,"Unknown ExpNode kind\n");
-          break;
+          	fprintf(listing,"Unknown ExpNode kind\n");
+          	break;
       }
     }
     else fprintf(listing,"Unknown node kind\n");

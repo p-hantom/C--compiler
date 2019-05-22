@@ -1,0 +1,78 @@
+declarationList 
+declaration declarationList1 
+declaration declarationList1 
+ep 
+varDeclaration 
+funDeclaration 
+typeSpecifier ID type1 
+; 
+[ NUM ] ; 
+int 
+void 
+typeSpecifier ID ( params ) 
+paramList 
+void 
+param paramList1 
+, param paramList1 
+ep 
+typeSpecifier ID param1 
+[ ] 
+ep 
+0  First:typeSpecifier -> int 
+typeSpecifier -> void 
+
+1  First:typeSpecifier -> int 
+typeSpecifier -> void 
+
+2  First:typeSpecifier -> int 
+typeSpecifier -> void 
+declarationList1 -> ep 
+
+3  First:typeSpecifier -> int 
+typeSpecifier -> void 
+
+4  First:typeSpecifier -> int 
+typeSpecifier -> void 
+
+5  First:typeSpecifier -> int 
+typeSpecifier -> void 
+
+6  First:typeSpecifier -> int 
+typeSpecifier -> void 
+
+7  First:type1 -> ; 
+type1 -> [ NUM ] ; 
+
+8  First:typeSpecifier -> int 
+params -> void 
+param1 -> [ ] 
+paramList1 -> , param paramList1 
+param1 -> ep 
+
+9  First:typeSpecifier -> int 
+typeSpecifier -> void 
+param1 -> [ ] 
+paramList1 -> , param paramList1 
+param1 -> ep 
+
+10  First:paramList1 -> , param paramList1 
+paramList1 -> ep 
+
+11  First:typeSpecifier -> int 
+typeSpecifier -> void 
+param1 -> [ ] 
+param1 -> ep 
+
+
+0  Follow: program -> ep 
+1  Follow: program -> ep 
+2  Follow: program -> ep 
+3  Follow: typeSpecifier -> int  typeSpecifier -> void  declarationList1 -> ep  program -> ep 
+4  Follow: typeSpecifier -> int  typeSpecifier -> void  declarationList1 -> ep  program -> ep 
+5  Follow: typeSpecifier -> int  typeSpecifier -> void  declarationList1 -> ep  program -> ep 
+6  Follow: typeSpecifier -> int  typeSpecifier -> void  
+7  Follow: typeSpecifier -> int  typeSpecifier -> void  declarationList1 -> ep  program -> ep 
+8  Follow: params -> ep 
+9  Follow: params -> ep 
+10  Follow: params -> ep 
+11  Follow: params -> ep paramList1 -> , param paramList1  paramList1 -> ep  

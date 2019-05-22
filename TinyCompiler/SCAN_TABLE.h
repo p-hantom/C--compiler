@@ -10,6 +10,6 @@ extern char tokenString_t[MAXTOKENLEN+1];
 /* function getToken returns the 
  * next token in source file
  */
-TokenType getToken_t(map<State_Input,TableVal> &M);
+//TokenType getToken_t(map<State_Input,TableVal> &M);
 
 #endif

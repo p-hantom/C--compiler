@@ -1,11 +1,3 @@
-/****************************************************/
-/* File: globals.h                                  */
-/* Global types and vars for TINY compiler          */
-/* must come before other include files             */
-/* Compiler Construction: Principles and Practice   */
-/* Kenneth C. Louden                                */
-/****************************************************/
-
 #ifndef _GLOBALS_H_
 #define _GLOBALS_H_
 
@@ -29,41 +21,26 @@
 using namespace std;
 
 typedef enum 
-    /* book-keeping tokens */
    {ENDFILE,ERROR,
     /* reserved words */
-    IF,ELSE,
-    /* c- reserved words*/
-    INT,RETURN,WHILE,VOID,
-    /* multicharacter tokens */
+    IF,ELSE,INT,RETURN,WHILE,VOID,
     ID,
-    /* special symbols */
     ASSIGN,EQ,GT,LT,GE,LE,NOTEQ,
 	PLUS,MINUS,TIMES,OVER,LPAREN,RPAREN,SEMI,
-	LCURL,RCURL,LSQ,RSQ,COMMA,NUM,NULL_TK
+	LCURL,RCURL,LSQ,RSQ,COMMA,NUM,NULL_TK,PARSER_START 
    } TokenType;
    
-   typedef enum
-   { START,INASSIGN,INSLASH,INCOMMENT_START,INCOMMENT_END,INNUM,
-   INGT,INLT,INGE,INLE,INNOTEQ,INID,DONE }
-   StateType;
-   
-struct State_Input{
-	StateType st;
-	int c;
-};
+typedef enum {Program,DeList,DeList1,De,De1,VarDe,FunDe,Type,
+Type1,Params,ParamList,ParamList1,Param,Param1,CmpdStmt,LocalDes,	//15
+LocalDes1,StmtList,StmtList1,Stmt,Stmt2,ExpStmt,SelecStmt,IterStmt,ReturnStmt,	//24
+Exp,Exp1,SelecStmt1,ReturnStmt1,SimpleExp,SimpleExp1,Relop,AddExp,AddExp1,Addop,	
+Mulop,Term,Term1,Factor,Factor1,Var,Call,Args,ArgList,ArgList1
+ } VN;
 
-struct TableVal{
-	StateType st;
-	TokenType tk;
-	int save;
-	int unget;
-};
-
-//extern int lineno3;
-//extern map<State_Input,int> M;
-
-bool operator< ( State_Input a, State_Input b );
+typedef enum
+{ START,INASSIGN,INSLASH,INCOMMENT_START,INCOMMENT_END,INNUM,
+INGT,INLT,INGE,INLE,INNOTEQ,INID,DONE }
+StateType;
 
 
 extern FILE* source; /* source code text file */
@@ -77,24 +54,19 @@ extern int lineno; /* source line number for listing */
 /**************************************************/
 
 typedef enum {StmtK,ExpK} NodeKind;
-typedef enum {IfK,RepeatK,AssignK,ReadK,WriteK} StmtKind;
-typedef enum {OpK,ConstK,IdK} ExpKind;
+typedef enum {IfK,WhileK,ReturnK,AssignK,DeVarK,DeFunK,CompoundK} StmtKind;
+typedef enum {OpK,ConstK,IdK,TypeK,SubscriptK,ParamK,CallK} ExpKind;
 
 /* ExpType is used for type checking */
 typedef enum {Void,Integer,Boolean} ExpType;
 
-#define MAXCHILDREN 3
+#define MAXCHILDREN 7
 
 typedef struct treeNode
    { struct treeNode * child[MAXCHILDREN];
      struct treeNode * sibling;
      int lineno;
-     NodeKind nodekind;
-     union { StmtKind stmt; ExpKind exp;} kind;
-     union { TokenType op;
-             int val;
-             char * name; } attr;
-     ExpType type; /* for type checking of exps */
+     string pro;	//输出的产生式 
    } TreeNode;
 
 /**************************************************/

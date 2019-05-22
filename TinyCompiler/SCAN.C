@@ -11,8 +11,7 @@
 /* lexeme of identifier or reserved word */
 char tokenString[MAXTOKENLEN+1];
 
-/* BUFLEN = length of the input buffer for
-   source code lines */
+
 #define BUFLEN 256
 
 static char lineBuf[BUFLEN]; /* holds the current line */
@@ -20,10 +19,8 @@ static int linepos = 0; /* current position in LineBuf */
 static int bufsize = 0; /* current size of buffer string */
 static int EOF_flag = FALSE; /* corrects ungetNextChar behavior on EOF */
 
-/* getNextChar fetches the next non-blank character
-   from lineBuf, reading in a new line if lineBuf is
-   exhausted */
-static int getNextChar(void)
+
+static int getNextChar()
 { if (!(linepos < bufsize))
   { lineno++;
     if (fgets(lineBuf,BUFLEN-1,source))
@@ -40,12 +37,11 @@ static int getNextChar(void)
   else return lineBuf[linepos++];
 }
 
-/* ungetNextChar backtracks one character
-   in lineBuf */
-static void ungetNextChar(void)
+
+static void ungetNextChar()
 { if (!EOF_flag) linepos-- ;}
 
-/* lookup table of reserved words */
+
 static struct
     { char* str;
       TokenType tok;
@@ -53,8 +49,6 @@ static struct
    = {{"if",IF},{"else",ELSE},{"while",WHILE},
       {"return",RETURN},{"void",VOID},{"int",INT}};
 
-/* lookup an identifier to see if it is a reserved word */
-/* uses linear search */
 static TokenType reservedLookup (char * s)
 { int i;
   for (i=0;i<MAXRESERVED;i++)
@@ -63,24 +57,17 @@ static TokenType reservedLookup (char * s)
   return ID;
 }
 
-/****************************************/
-/* the primary function of the scanner  */
-/****************************************/
-/* function getToken returns the 
- * next token in source file
- */
+
 TokenType getToken(void)
-{  /* index for storing into tokenString */
+{  
    int tokenStringIndex = 0;
-   /* holds current token to be returned */
+   
    TokenType currentToken;
-   /* current state - always begins at START */
    StateType state = START;
-   /* flag to indicate save to tokenString */
    int save;
    while (state != DONE)
    { int c = getNextChar();
-   	 printf("%c",c);
+   	 //printf("%c",c);
      save = TRUE;
      switch (state)
      { case START:
@@ -274,6 +261,6 @@ TokenType getToken(void)
      //test(currentToken);
    }
    return currentToken;
-} /* end getToken */
+} 
 
 

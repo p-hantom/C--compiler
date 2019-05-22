@@ -1,0 +1,103 @@
+program - declarationList 0
+program - EOF 0
+declarationList - declaration declarationList1 0
+declarationList1 - declaration declarationList1 0
+declarationList1 - ep 0
+declarationList1 - EOF 0
+declaration - typeSpecifier ID declaration1 0
+declaration1 ¨C varDeclaration 0
+declaration1 ¨C funDeclaration 0
+varDeclaration - type1 0
+funDeclaration - ( params ) compoundStmt 0
+type1 - ; 0
+type1 - [ NUM ] ; 0
+typeSpecifier - int 0
+typeSpecifier - void 0
+params - paramList 0
+params - void 0
+paramList - param paramList1 0
+paramList1 - , param paramList1 0
+paramList1 - ep 0
+param - typeSpecifier ID param1 0
+param1 - [ ] 0
+param1 - ep 0
+
+compoundStmt - { localDeclarations statementList } 0
+localDeclarations - localDeclarations1 0
+localDeclarations1 - declaration localDeclarations1 0
+localDeclarations1 ¨C ep 0
+
+statementList - statementList1 0
+statementList1 - statement statementList1 0
+statementList1 - ep 0
+
+statement - expressionStmt 0
+statement - selectionStmt 0
+statement - iterationStmt 0
+statement - compoundStmt 0
+statement - returnStmt 0
+
+expressionStmt - expression ; 0
+expressionStmt - ; 0
+
+selectionStmt - if ( simpleExpression ) statement2 selectionStmt1 0
+
+statement2 - expressionStmt 0
+statement2 - iterationStmt 0
+statement2 - compoundStmt 0
+statement2 - returnStmt 0
+
+selectionStmt1 - else statement2 0
+
+selectionStmt1 - ep 0
+
+iterationStmt - while ( simpleExpression ) statement 0
+returnStmt - return returnStmt1 0
+returnStmt1 - ; 0
+returnStmt1 - simpleExpression ; 0
+
+expression - factor expression1 0
+expression1 - = simpleExpression 0
+expression1 - ep 0
+
+simpleExpression - additiveExpression simpleExpression1 0
+simpleExpression1 - relop additiveExpression 0
+simpleExpression1 - ep 0
+
+relop - <= 0
+relop - < 0
+relop - >= 0
+relop - > 0
+relop - == 0
+relop - != 0
+addop - + 0
+addop - - 0
+mulop - * 0
+mulop - / 0
+
+additiveExpression - term additiveExpression1 0
+additiveExpression1 - addop term additiveExpression1 0
+additiveExpression1 - ep 0
+
+term - factor term1 0
+term1 - mulop factor term1 0
+term1 - ep 0
+
+factor - ( simpleExpression ) 0
+factor - ID factor1 0
+factor1 - var 0
+factor1 - call 0
+factor - NUM 0
+
+call - ( args ) 0
+var - [ simpleExpression ] 0
+var - ep 0
+args - argList 0
+args - ep 0
+argList - simpleExpression argList1 0
+argList1 - , simpleExpression argList1 0
+argList1 - ep 0
+
+
+
+0
