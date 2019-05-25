@@ -61,7 +61,13 @@ static void syntaxError(char * message)
   Error = TRUE;
 }
 
+stack<TreeNode*> treeStack;
+TreeNode *t;
+
 TreeNode * parse(){
+	
+	TreeNode *pt;
+	
 	P_Token start,program;
 	start.attr.t=PARSER_START;
 	start.isVn=false;
@@ -69,23 +75,38 @@ TreeNode * parse(){
 	program.isVn=true;
 	s.push(start);
 	s.push(program);
+	
+	t=new TreeNode();
+	treeStack.push(t);
+	
 	bool isGetTk=true;	//判断是否需要getToken 
 	while(s.size()>1){
-		fprintf(listing,"----------------------\n");
+		//fprintf(listing,"----------------------\n");
 		P_Token s_top=s.top(); //top of stack
+		
+		TreeNode *t_top=treeStack.top();
+		//cout<<"top: "<<t_top<<endl;
+		
 		if(isGetTk){
 			token = getToken();
 		}
 		if(s_top.isVn==false){	//match
 			
 			s.pop();
+			
+			treeStack.pop();
+			
+			t_top->child = NULL;
+			
 			if( s_top.attr.t==token){
 				isGetTk = true;  
-				cout<<"match:	"<<vt(s_top.attr.t)<<endl;
+				//fprintf(listing,"match: %s\n",vt(s_top.attr.t).c_str());
+				t_top->pro="match: "+vt(s_top.attr.t);
 			}
 			else{
 				isGetTk = false;
-				cout<<"ep	"<<endl;
+				//cout<<"doesn't match error	"<<endl;
+				t_top->pro="doesn't match error	";
 			}			
 		}
 		else{
@@ -94,21 +115,37 @@ TreeNode * parse(){
 			TableVal tbVal=pTable[{s_top.attr.vn,token}];
 			vector<P_Token> pToken=tbVal.p_tk;
 			if(pToken.size() == 0){
-				cout<<"error"<<endl; 
+				//cout<<"error"<<endl; 
 			} 
 			else{
-				fprintf(listing,"%s\n",tbVal.p_str.c_str());
-			}
+				//fprintf(listing,"%s\n",tbVal.p_str.c_str());
+				
+				//treeStack弹栈、压入新指针为产生式左边元素的child 
+				t_top->pro = tbVal.p_str.c_str();
+				treeStack.pop();												
 			
-			cout<<"push "<<pToken.size()<<"%%%";
-			for(int i=0;i<pToken.size();i++){
-				if(pToken[i].isVn==false && pToken[i].attr.t==NULL_TK)	break;
-				s.push(pToken[i]);
+				TreeNode *sib = new TreeNode();
+				TreeNode *sib1,*tmp=sib;
+				if(pToken[0].isVn==false && pToken[0].attr.t==NULL_TK){	//if vn -> ep										
+				}
+				else{
+					for(int i=0;i<pToken.size();i++){						
+						//当前产生式右边后面的元素为产生式右边第一个元素的sibling 
+						treeStack.push(sib);
+						
+						sib1 = new TreeNode();
+						sib1->sibling = sib;
+						tmp = sib;
+						sib=sib1;
+						
+						s.push(pToken[i]);
+					}
+					t_top->child = tmp;
+				}
 			}
 		}
-		cout<<"stack size = "<<s.size()<<endl;
 	}
-	return NULL;
+	return t;
 }
 
 bool operator< ( TableKey a, TableKey b ){
@@ -144,19 +181,9 @@ void initParsingTable(){
 			set<TableItem>::iterator followTbSetIt;
 			followTbSet=follow.find((*firstIt).first)->second;	//该vn的follow 
 			for(followTbSetIt=followTbSet.begin();followTbSetIt!=followTbSet.end();followTbSetIt++){
-//				string pro=(*followTbSetIt).p;
-//				
-//				char *cstr = new char[pro.length() + 1];	//convert string to char*
-//				strcpy(cstr, pro.c_str());
-//				string pro1=convertToEpPro(cstr);	//pro1:	vn -> ep
-//				delete [] cstr;
-//				string pro=getProEp((*firstIt).first);
-				
-//				vector<P_Token> p;
-//				getProEpToken(p);
+
 				pTable[{(*firstIt).first,(*followTbSetIt).t}]={(*followTbSetIt).p,(*followTbSetIt).p_tk};
-//				pTable[{(*firstIt).first,(*followTbSetIt).t}]={pro1,(*followTbSetIt).p_tk};
-//				fprintf(listing,"p_tk = %d\n",(*tbItemSetIt).p_tk.size());
+
 			}
 		}
 	}
@@ -173,8 +200,7 @@ TreeNode * parse_ll1(){
 	initParsingTable();	//构建parsing table
 	
 	TreeNode * t;
-//	t=parse();
-	parse();
+	t=parse();
 	if (token!=ENDFILE)
     	syntaxError("Code ends before file\n");
  	 return t;
@@ -274,9 +300,14 @@ string vt(TokenType t){
 		case RETURN: return "return";
 		case WHILE: return "while";
 		case VOID: return "void";
-		case ID: return "id";
+		case ID: return "ID";
 		case ASSIGN: return "assign";
 		case EQ: return "==";
+		case GT: return ">"; 
+		case LT: return "<";
+		case GE: return ">=";
+		case LE: return "<=";
+		case NOTEQ: return "!="; 
 		case PLUS: return "+";
 		case LPAREN: return "(";
 		case RPAREN: return ")";
@@ -286,8 +317,12 @@ string vt(TokenType t){
 		case LCURL: return "{";
 		case RCURL: return "}";
 		case COMMA: return ",";
-		case NUM: return "num";
+		case NUM: return "NUM";
 		case NULL_TK: return "ep";
+		case TIMES: return "*";
+		case OVER: return "/";
+		case MINUS: return "-";
+		case ENDFILE: return "EOF"; 
 		default: return "x";
 	}
 }

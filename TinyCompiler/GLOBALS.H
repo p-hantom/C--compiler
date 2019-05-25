@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <iostream>
+#include <stack>
+#include <string>
 #include <string.h>
 #include <map>
 
@@ -63,11 +65,17 @@ typedef enum {Void,Integer,Boolean} ExpType;
 #define MAXCHILDREN 7
 
 typedef struct treeNode
-   { struct treeNode * child[MAXCHILDREN];
+   { struct treeNode * child;
      struct treeNode * sibling;
-     int lineno;
      string pro;	//输出的产生式 
+     TreeNode(){
+     	child=NULL;
+     	sibling=NULL;
+	 } 
    } TreeNode;
+   
+extern stack<TreeNode*> treeStack;
+extern TreeNode *t; 
 
 /**************************************************/
 /***********   Flags for tracing       ************/

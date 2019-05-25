@@ -1,7 +1,5 @@
 #include "globals.h"
 #include "scan.h"
-#include "scan_table.h"
-#include "init_table.h"
 #include "parser_ll1.h"
 #include "util.h"
 
@@ -52,7 +50,8 @@ main()
 	  syntaxTree = parse_ll1();
 //	  if (TraceParse) {
 //	    fprintf(listing,"\nSyntax tree:\n");
-//	    printTree(syntaxTree);
+cout<<"-------------parsing---------------"<<endl;
+	    printTree(syntaxTree);
 //	  }
 
   fclose(source);

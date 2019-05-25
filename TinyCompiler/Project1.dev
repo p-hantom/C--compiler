@@ -29,7 +29,7 @@ IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=0
 CompilerSettings=0000000000000000001000000
-UnitCount=10
+UnitCount=8
 
 [VersionInfo]
 Major=1
@@ -61,7 +61,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit8]
-FileName=PARSER_EBNF.h
+FileName=PARSER_LL1.h
 CompileCpp=1
 Folder=
 Compile=1
@@ -231,7 +231,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit7]
-FileName=PARSER_EBNF.cpp
+FileName=PARSER_LL1.cpp
 CompileCpp=1
 Folder=
 Compile=1
